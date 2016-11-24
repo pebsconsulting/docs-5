@@ -1,6 +1,6 @@
-# UniGraph's API Documentation
+# UniGraph's Documentation
 
-Welcome to the UniGraph API Documentation. Head over to the [Wiki ](https://github.com/unigraph/api-docs/wiki) to get started.
+Welcome to the UniGraph Documentation. Head over to the [Wiki ](https://github.com/unigraph/api-docs/wiki) to get started.
 
 [Request an API Key](mailto:api@ingen.io)
 
