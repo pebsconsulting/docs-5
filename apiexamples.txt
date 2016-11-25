@@ -5,3 +5,10 @@
         label(lang: "en")
     }
 }
+
+# Select all subjects of the property "label" that have a text value "Boston" in "English" :
+{
+    subjects(property: "label", text: "Boston", lang: "en") {
+        uid
+    }
+}
