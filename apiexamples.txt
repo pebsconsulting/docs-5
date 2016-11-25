@@ -192,3 +192,10 @@ query ChainedFilters {
         }
     }
 }
+
+# Inclusive RegExp
+query Regex {
+    node(uid: "20fa0e74e6") {
+        official_website(filter: "$url =~ `.*microsoft.*`")
+    }
+}
