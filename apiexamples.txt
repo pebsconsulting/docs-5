@@ -1,44 +1,42 @@
 # Get the node's label (name) in English
-
-query label {
+query EnglishLabel {
     node(uid: "121e") {
         label(lang: "en")
     }
 }
 
-# Select all subjects of the property "label" that have a text value "Boston" in "English" :
+# Select all subjects of the property "label" that have a text value "Boston" in "English"
 {
-    subjects(property: "label", text: "Boston", lang: "en") {
+    subjects(property: "label" text: "Boston" lang: "en") {
         uid
     }
 }
 
 # Find the founders of Microsoft
 query MicrosoftFounders {
-    objects(property: "founder", uid: "20fa0e74e6") {
+    objects(property: "founder" uid: "20fa0e74e6") {
         uid
         label(lang: "en")
     }
 }
 
 # The organizations founded by Microsoft
-query Microsoft Founded {
-    subjects(property: "founder", uid: "20fa0e74e6") {
-        uid
-        label(lang: "en")
-    }
-}
-
-#Two queries listing the founders of Microsoft and the organizations founded by Microsoft
-query MicrosoftFounders {
-    objects(property: "founder", uid: "20fa0e74e6") {
-        uid
-        label(lang: "en")
-    }
-}
-
 query MicrosoftFounded {
-    subjects(property: "founder", uid: "20fa0e74e6") {
+    subjects(property: "founder" uid: "20fa0e74e6") {
+        uid
+        label(lang: "en")
+    }
+}
+
+# Two queries listing the founders of Microsoft and the organizations founded by Microsoft
+query MicrosoftFounders {
+    objects(property: "founder" uid: "20fa0e74e6") {
+        uid
+        label(lang: "en")
+    }
+}
+query MicrosoftFounded {
+    subjects(property: "founder" uid: "20fa0e74e6") {
         uid
         label(lang: "en")
     }
@@ -56,7 +54,7 @@ query MicrosoftFounded {
     }
 }
 
-# Get the dialects of the Finnish languahe by reversing the dialect_of property
+# Get the dialects of the Finnish language by reversing the dialect_of property
 {
     node(uid: "12f594") {
         dialect_of @reverse {
@@ -76,7 +74,7 @@ query MicrosoftFounded {
     }
 }
 
-#Get all qualifiers for a claim
+# Get all qualifiers for a claim
 {
     node(uid: "20faaf3b2e") {
         educated_at @qualify {
@@ -85,7 +83,7 @@ query MicrosoftFounded {
     }
 }
 
-#Get the claim's confirmation
+# Get claim's confirmation
 {
     node(uid: "20faaf3b2e") {
         educated_at {
@@ -95,7 +93,7 @@ query MicrosoftFounded {
     }
 }
 
-#Find the uid of a node given an external identifier
+# Find the uid of a node given an external identifier
 {
     subjects(property: "wikidata_id" identifier: "Q30") {
         uid
@@ -103,22 +101,22 @@ query MicrosoftFounded {
     }
 }
 
-#Fint the uid of a node given given an url
+# Find the uid of a node given an url
 {
-    subjects(property: "official_blog", url: "https://googleblog.blogspot.com/") {
+    subjects(property: "official_blog" url: "https://googleblog.blogspot.com/") {
         uid
         label(lang: "en")
     }
 }
 
-#Get a list of every person in the Graph born on the 6th of February 1986
+# Get list of every person born on the 6th of February 1986
 {
-	subjects(property: "date_of_birth", datetime: "1986-02-06") {
-		uid
-	}
+    subjects(property: "date_of_birth" datetime: "1986-02-06") {
+        uid
+    }
 }
 
-#Find the country an aircraft registration prefix belongs to
+# Find the country an aircraft registration prefix belongs to
 {
     subjects(property: "aircraft_registration_prefix" rawstring: "OE") {
         uid
@@ -126,68 +124,68 @@ query MicrosoftFounded {
     }
 }
 
-#Which engines have 3 cylinders only?
+# Which engines have 3 cylinders only?
 {
-    subjects(property: "number_of_cylinders", amount: "3") {
+    subjects(property: "number_of_cylinders" amount: "3") {
         uid
     }
 }
 
-#Which airplane has a wingspan of 79.8 meters?
+# Which airplane has a wingspan of 79.8 meters?
 {
-    subjects(property: "wingspan", amount: "79.8", unit: "12f92445") {
+    subjects(property: "wingspan" amount: "79.8" unit: "12f92445") {
         uid
     }
 }
 
-#What is located at 45.965 and 63.305 on Earth?
+# What is located at 45.965 and 63.305 on Earth?
 query GeoCoordinates {
-  subjects(property: "coordinate_location", latitude: "45.965", longitude: "63.305", globe: "1202") {
-    uid
-    label(lang: "en")
-  }
+    subjects(property: "coordinate_location" latitude: "45.965" longitude: "63.305" globe: "1202") {
+        uid
+        label(lang: "en")
+    }
 }
 
 # When was the population of the United States less than 5 000 000?
 {
-  node(uid: "121e") {
-    label(lang: "en")
-    population(filter: "$amount < 5000000") {
-      .point_in_time
-    }
-  }
-}
-
-# What are the recorded population data for the US after 2010?
-query TimeFilter {
     node(uid: "121e") {
         label(lang: "en")
-        population(filter: ".point_in_time > `2010`") {
+        population(filter: "$amount < 5000000") {
             .point_in_time
         }
     }
 }
 
-#Last recorded time Microsoft's Total Assets were below $80B
+# What are the recorded population data for the United States after 2010?
+query TimeFilter {
+    node(uid: "121e") {
+        label(lang: "en")
+        population(filter: ".point_in_time > \"2010\"") {
+            .point_in_time
+        }
+    }
+}
+
+# Last recorded time Microsoft's Total Assets were below $80B
 query CompoundFilter {
     node(uid: "20fa0e74e6") {
-        total_assets(filter: "$amount < 80000000000 unit: 12f90a45")
+        total_assets(filter: "$amount < 80000000000 AND $unit == \"12f90a45\"")
     }
 }
 
-#Of all things named Boston, list just the cities:
+# Of all things named Boston, list just the cities:
 query Propagate {
-    subjects(property: "label" text: "Boston", lang: "en") {
+    subjects(property: "label" text: "Boston" lang: "en") {
         uid
-        instance_of(filter: "$0 == `12f213`") @propagate
+        instance_of(filter: "$0 == \"12f213\"") @propagate
     }
 }
 
-#What was the UK's population in 2010 and 2000?
+# What was the UK's population in 2010 and 2000?
 query ChainedFilters {
     node(uid: "1291") {
         label(lang: "en")
-        population(filter: ".point_in_time == `2010` or .point_in_time == `2000`") {
+        population(filter: ".point_in_time == \"2010\" OR .point_in_time == \"2000\"") {
             .point_in_time
         }
     }
@@ -196,6 +194,6 @@ query ChainedFilters {
 # Inclusive RegExp
 query Regex {
     node(uid: "20fa0e74e6") {
-        official_website(filter: "$url =~ `.*microsoft.*`")
+        official_website(filter: "$url =~ \".*microsoft.*\"")
     }
 }
