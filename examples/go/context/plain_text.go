@@ -1,17 +1,19 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"strings"
 )
 
 type Response []struct {
-	UID    string   
-	Weight int      
-	Stated string   
-	Edges  []string 
+	UID    string
+	Weight float64
+	Stated string
+	Edges  []string
 }
 
 func main() {
@@ -24,6 +26,11 @@ func main() {
 	res, _ := http.DefaultClient.Do(req)
 	defer res.Body.Close()
 	body, _ := ioutil.ReadAll(res.Body)
-	fmt.Println(res)
-	fmt.Println(string(body))
+	entities := Response{}
+	if err := json.Unmarshal(body, &entities); err != nil {
+		log.Fatal(err)
+	}
+	for _, entity := range entities {
+		fmt.Printf("Entity: %+v\n", entity)
+	}
 }
