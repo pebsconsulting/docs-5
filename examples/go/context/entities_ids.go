@@ -8,21 +8,35 @@ import (
 	"net/http"
 )
 
-type DisambiguateRequest struct {
-	Label    string `json:"label"`
-	Language string `json:"language"`
+type EntitiesRequest struct {
+	Entities []Entity `json:"entities"`
+}
+
+type Entity struct {
+	Identifier Identifier `json:"identifier"`
+}
+
+type Identifier struct {
+	Property string `json:"property"`
+	Value    string `json:"value"`
 }
 
 type Response []struct {
 	UID    string
 	Weight float64
+	Edges  []string
 }
 
 func main() {
-	url := "http://u01.unigraph.rocks/api/disambiguate"
+	url := "http://u01.unigraph.rocks/api/context/entities"
 
-	request := DisambiguateRequest{"Silvio Berlusconi", "en"}
-
+	request := EntitiesRequest{
+		Entities: []Entity{
+			{Identifier{"freebase_id", "/m/0cc883w"}},
+			{Identifier{"wikidata_id", "Q57775"}},
+			{Identifier{"wikidata_id", "Q133968"}},
+		},
+	}
 	jsonRequest, _ := json.Marshal(request)
 	payload := bytes.NewReader(jsonRequest)
 
